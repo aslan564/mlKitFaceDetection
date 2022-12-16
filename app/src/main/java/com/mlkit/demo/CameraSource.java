@@ -47,8 +47,13 @@ import java.util.List;
  * sending those frames to child classes' detectors / classifiers as fast as it is able to process.
  */
 public class CameraSource {
+/*
   @SuppressLint("InlinedApi")
   public static final int CAMERA_FACING_BACK = CameraInfo.CAMERA_FACING_BACK;
+*/
+
+  @SuppressLint("InlinedApi")
+  public static final int CAMERA_FACING_BACK = CameraInfo.CAMERA_FACING_FRONT;
 
   @SuppressLint("InlinedApi")
   public static final int CAMERA_FACING_FRONT = CameraInfo.CAMERA_FACING_FRONT;

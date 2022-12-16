@@ -62,7 +62,7 @@ import java.util.TimerTask
 abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 
   companion object {
-    const val MANUAL_TESTING_LOG = "LogTagForTest"
+    const val MANUAL_TESTING_LOG = "aslanaskdjgashjkdasd"
     private const val TAG = "VisionProcessorBase"
   }
 

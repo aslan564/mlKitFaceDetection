@@ -1,6 +1,7 @@
 package com.mlkit.demo.kotlin.facedetector
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
@@ -16,8 +17,18 @@ import java.util.Locale
 /** Face Detector Demo.  */
 private const val TAG = "FaceDetectorProcessor"
 
-class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptions?) :
+class FaceDetectorProcessor(
+    context: Context,
+    detectorOptions: FaceDetectorOptions?,
+    private val faceControl: FaceControl
+
+) :
     VisionProcessorBase<List<Face>>(context) {
+
+    interface FaceControl {
+        fun getFaceParameters(face: Face, image: Bitmap?)
+    }
+
 
     private val detector: FaceDetector
 
@@ -31,7 +42,6 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         detector = FaceDetection.getClient(options)
 
         Log.v(MANUAL_TESTING_LOG, "Face detector options: $options")
-        Log.v(MANUAL_TESTING_LOG, "Face detector options: ${detector.detectorType}")
     }
 
     override fun stop() {
@@ -43,9 +53,10 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         return detector.process(image)
     }
 
-    override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
-        for (face in faces) {
+    override fun onSuccess(results: List<Face>, graphicOverlay: GraphicOverlay, image: Bitmap?) {
+        for (face in results) {
             graphicOverlay.add(FaceGraphic(graphicOverlay, face))
+            faceControl.getFaceParameters(face, image)
             logExtrasForTesting(face)
         }
     }
@@ -58,22 +69,7 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         private const val TAG_FACE = "FaceDetectorProcessor"
         private fun logExtrasForTesting(face: Face?) {
             if (face != null) {
-                Log.v(
-                    "face bounding box",
-                    "face bounding box: " + face.boundingBox.centerX()+" : " + face.boundingBox.centerY()
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face Euler Angle X: " + face.headEulerAngleX
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face Euler Angle Y: " + face.headEulerAngleY
-                )
-                Log.v(
-                    MANUAL_TESTING_LOG,
-                    "face Euler Angle Z: " + face.headEulerAngleZ
-                )
+
                 // All landmarks
                 val landMarkTypes = intArrayOf(
                     FaceLandmark.MOUTH_BOTTOM,
@@ -151,6 +147,19 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 Log.v(
                     MANUAL_TESTING_LOG,
                     "face tracking id: " + face.trackingId
+                )
+
+                /*if (face.boundingBox.centerX()) {
+                }*/
+
+                Log.v(
+                    MANUAL_TESTING_LOG_TWO,
+                    "3 face boundingBox centerX: " + face.boundingBox.centerX()
+                )
+
+                Log.v(
+                    MANUAL_TESTING_LOG_TWO,
+                    "4 face boundingBox centerY: " + face.boundingBox.centerY()
                 )
             }
         }

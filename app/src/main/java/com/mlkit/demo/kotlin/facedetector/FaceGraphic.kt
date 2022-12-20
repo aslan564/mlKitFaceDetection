@@ -41,21 +41,21 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
 
     init {
         // Uzun conturlari
-        val selectedColor = Color.RED
+        val selectedColor = Color.TRANSPARENT
         facePositionPaint = Paint()
         facePositionPaint.color = selectedColor
         for (i in 0 until numColors) {
             idPaints[i] = Paint()
-            idPaints[i].color = COLORS[i][0]
+            idPaints[i].color = Color.TRANSPARENT // COLORS[i][0]
             idPaints[i].textSize = ID_TEXT_SIZE
             // qutunun cercivesi
             boxPaints[i] = Paint()
-            boxPaints[i].color = COLORS[i][0]
+            boxPaints[i].color = Color.TRANSPARENT // COLORS[i][0]
             boxPaints[i].style = Paint.Style.STROKE
             boxPaints[i].strokeWidth = BOX_STROKE_WIDTH
 
             labelPaints[i] = Paint()
-            labelPaints[i].color = COLORS[i][1]
+            labelPaints[i].color = Color.TRANSPARENT// COLORS[i][1]
             labelPaints[i].style = Paint.Style.FILL
         }
     }

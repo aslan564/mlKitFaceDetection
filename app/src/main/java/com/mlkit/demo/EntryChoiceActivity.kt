@@ -20,6 +20,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
@@ -41,6 +42,11 @@ class EntryChoiceActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
       startActivity(intent)
     }
 */
+    if (!allPermissionsGranted()) {
+      ActivityCompat.requestPermissions(
+        this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+      )
+    }
     findViewById<TextView>(id.kotlin_entry_point).setOnClickListener {
       val intent =
         Intent(
@@ -57,10 +63,10 @@ class EntryChoiceActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
 
   private fun allRuntimePermissionsGranted(): Boolean {
     for (permission in REQUIRED_RUNTIME_PERMISSIONS) {
-      permission?.let {
-        if (!isPermissionGranted(this, it)) {
-          return false
-        }
+      permission.let {
+          if (!isPermissionGranted(this, it)) {
+            return false
+          }
       }
     }
     return true
@@ -95,9 +101,27 @@ class EntryChoiceActivity : AppCompatActivity(), ActivityCompat.OnRequestPermiss
     return false
   }
 
+  private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+    ContextCompat.checkSelfPermission(
+      baseContext, it
+    ) == PackageManager.PERMISSION_GRANTED
+  }
+
   companion object {
     private const val TAG = "EntryChoiceActivity"
     private const val PERMISSION_REQUESTS = 1
+
+    private const val REQUEST_CODE_PERMISSIONS = 10
+    private val REQUIRED_PERMISSIONS =
+      mutableListOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.RECORD_AUDIO
+      ).apply {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+          add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+      }.toTypedArray()
+
 
     private val REQUIRED_RUNTIME_PERMISSIONS =
       arrayOf(

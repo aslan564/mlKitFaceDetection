@@ -20,6 +20,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -229,6 +230,10 @@ public class GraphicOverlay extends View {
     synchronized (lock) {
       graphics.add(graphic);
     }
+  }
+
+  public void getImage(Bitmap image) {
+   // graphics.add(graphic);
   }
 
   /** Removes a graphic from the overlay. */

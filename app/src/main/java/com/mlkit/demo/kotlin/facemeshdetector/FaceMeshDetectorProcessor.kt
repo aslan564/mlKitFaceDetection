@@ -16,6 +16,7 @@
 package com.mlkit.demo.kotlin.facemeshdetector
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
@@ -51,7 +52,7 @@ class FaceMeshDetectorProcessor(context: Context) :
     return detector.process(image)
   }
 
-  override fun onSuccess(faces: List<FaceMesh>, graphicOverlay: GraphicOverlay) {
+  override fun onSuccess(faces: List<FaceMesh>, graphicOverlay: GraphicOverlay,image: Bitmap?) {
     for (face in faces) {
       graphicOverlay.add(FaceMeshGraphic(graphicOverlay, face))
     }

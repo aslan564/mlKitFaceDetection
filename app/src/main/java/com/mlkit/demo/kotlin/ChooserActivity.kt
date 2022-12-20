@@ -33,6 +33,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import com.mlkit.demo.R
+import com.mlkit.demo.kotlin.livePreview.LivePreviewActivity
 
 /** Demo app chooser which allows you pick from all available testing Activities. */
 class ChooserActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback,
